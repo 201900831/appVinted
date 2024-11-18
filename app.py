@@ -4,8 +4,8 @@ import plotly.express as px
 import plotly.figure_factory as ff
 import plotly.graph_objects as go
 import pandas as pd
-from cargar_datosFinal2 import load_and_prepare_data
-from ML_models import run_models
+from src.cargar_datosFinal2 import load_and_prepare_data
+from src.ML_models import run_models
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder

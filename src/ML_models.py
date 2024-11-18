@@ -18,7 +18,7 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.utils import resample
-from cargar_datosFinal2 import load_and_prepare_data
+from src.cargar_datosFinal2 import load_and_prepare_data
 
 
 # In[3]:
