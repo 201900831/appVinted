@@ -18,7 +18,7 @@ def load_product_data_from_csv(file_path):
     """
     try:
         df = pd.read_csv(file_path)
-        print("Datos cargados correctamente desde el archivo CSV.")
+        #print("Datos cargados correctamente desde el archivo CSV.")
         return df
     except Exception as e:
         print("Error al cargar los datos desde el archivo CSV:", e)
