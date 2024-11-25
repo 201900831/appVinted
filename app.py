@@ -12,6 +12,7 @@ from sklearn.preprocessing import OneHotEncoder
 
 # Initialize the Dash app
 app = Dash(__name__, title="Customer Purchase and Model Evaluation Dashboard")
+server=app.server
 
 # Load and prepare the data
 file_path = "online_shoppers_intention.csv"  # Replace with your actual CSV file
