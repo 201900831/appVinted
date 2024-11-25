@@ -144,7 +144,8 @@ app.layout = html.Div(
                 html.H2("Correlation Matrix", style={"color": "#2a3f5f", "marginBottom": "10px"}),
                 html.P(
                     "This matrix shows the correlation between numerical features in the dataset. "
-                    "High positive or negative correlations indicate strong relationships between variables.",
+                    "High positive or negative correlations indicate strong relationships between variables."
+                    "In this case, it is important to see which are the variables that have higher correlations with the will_buy variable",
                     style={"fontSize": "14px", "color": "#666666", "marginBottom": "10px"},
                 ),
                 dcc.Graph(id="correlation-matrix", figure=correlation_fig),
@@ -157,7 +158,8 @@ app.layout = html.Div(
         html.Div(
             [
                 html.H2("Variable Distribution", style={"color": "#2a3f5f", "marginBottom": "10px"}),
-                html.P("Select a continuous variable to visualize its distribution among customers.", style={"fontSize": "14px", "color": "#666666", "marginBottom": "10px"}),
+                html.P("Select a continuous variable to visualize its distribution among customers."
+                       "This chart shows how selected variables, such as Bounce Rates, Exit Rates, and Product Related Duration, correlate with purchase behavior, providing insights to optimize user engagement.", style={"fontSize": "14px", "color": "#666666", "marginBottom": "10px"}),
                 dcc.Dropdown(
                     id="histogram-dropdown",
                     options=[
@@ -178,7 +180,7 @@ app.layout = html.Div(
             [
                 html.H2("Model Evaluation Metrics", style={"color": "#2a3f5f", "marginBottom": "10px"}),
                 html.P(
-                    "Use the dropdown to explore various metrics that evaluate the performance of the machine learning model. "
+                    "Use the dropdown to explore various metrics that evaluate the performance of the machine learning model that will predict if a customer entering a website will buy or not. "
                     "This includes the confusion matrix, F1 Score, Precision, Recall, and ROC Curve.",
                     style={"fontSize": "14px", "color": "#666666", "marginBottom": "10px"},
                 ),
@@ -203,6 +205,10 @@ app.layout = html.Div(
         html.Div(
             [
                 html.H2("Feature Importance", style={"color": "#2a3f5f", "marginBottom": "10px"}),
+                html.P(
+                    "This visualization will help with understanding which are the most relevant features that will determine if a customer will buy or not, according to the model selected",
+                    style={"fontSize": "14px", "color": "#666666", "marginBottom": "10px"},
+                ),
                 dcc.Graph(
                     id="feature-importance",
                     figure=px.bar(
