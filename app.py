@@ -38,15 +38,39 @@ feature_importances = pipeline_rf.feature_importances_
 features = preprocessor.get_feature_names_out()
 feature_importance_df = pd.DataFrame({"Feature": features, "Importance": feature_importances}).sort_values(by="Importance", ascending=False)
 
-#client
-boxplot_fig = px.box(
-    df.melt(id_vars=["will_buy"], value_vars=["BounceRates", "ExitRates", "PageValues", "ProductRelated_Duration"]),
-    x="variable",
-    y="value",
-    color="will_buy",
-    title="Distribution of Features by Customer Type",
-    labels={"value": "Value", "variable": "Feature", "will_buy": "Customer Type"},
-    category_orders={"will_buy": [0, 1]}
+from sklearn.preprocessing import OrdinalEncoder
+
+# Create a copy of the dataframe to preprocess
+df_encoded = df.copy()
+
+# Identify categorical variables
+categorical_cols = df_encoded.select_dtypes(include=["object", "category"]).columns
+
+# Apply ordinal encoding
+encoder = OrdinalEncoder()
+df_encoded[categorical_cols] = encoder.fit_transform(df_encoded[categorical_cols])
+# Compute the correlation matrix
+correlation_matrix = df_encoded.corr()
+
+
+# Create a more readable heatmap
+correlation_fig = px.imshow(
+    correlation_matrix,
+    labels=dict(x="Features", y="Features", color="Correlation"),
+    x=correlation_matrix.columns,
+    y=correlation_matrix.index,
+    title="Correlation Matrix of Features",
+    color_continuous_scale="RdBu_r",  # High-contrast color scale
+    text_auto=True,  # Annotate with correlation values
+)
+
+# Customize figure for better clarity
+correlation_fig.update_layout(
+    title_font_size=20,
+    title_x=0.5,
+    xaxis_tickangle=45,
+    height=800,  # Increase figure height
+    width=800,  # Increase figure width
 )
 
 # Create confusion matrix (example using Random Forest model)
@@ -114,18 +138,20 @@ app.layout = html.Div(
             style={"padding": "20px", "border": "1px solid #ddd", "borderRadius": "5px", "backgroundColor": "#f9f9f9", "marginBottom": "30px"},
         ),
 
-        # Nueva Sección: Boxplot
+        # Section: Correlation Matrix
         html.Div(
             [
-                html.H2("Feature Distributions by Customer Type", style={"color": "#2a3f5f", "marginBottom": "10px"}),
+                html.H2("Correlation Matrix", style={"color": "#2a3f5f", "marginBottom": "10px"}),
                 html.P(
-                    "This section shows how key features differ between customers who made a purchase and those who did not.",
+                    "This matrix shows the correlation between numerical features in the dataset. "
+                    "High positive or negative correlations indicate strong relationships between variables.",
                     style={"fontSize": "14px", "color": "#666666", "marginBottom": "10px"},
                 ),
-                dcc.Graph(id="boxplot-chart", figure=boxplot_fig),
+                dcc.Graph(id="correlation-matrix", figure=correlation_fig),
             ],
             style={"padding": "20px", "border": "1px solid #ddd", "borderRadius": "5px", "backgroundColor": "#f9f9f9", "marginBottom": "30px"},
         ),
+        
 
         # Section 3: Variable Distribution
         html.Div(
